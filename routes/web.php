@@ -8,8 +8,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('login', [AuthenticationController::class, 'login']);
-Route::post('login', [AuthenticationController::class, 'authentication']);
+Route::get('masuk', [AuthenticationController::class, 'login']);
+Route::post('masuk', [AuthenticationController::class, 'authentication']);
+Route::get('keluar', [AuthenticationController::class, 'logout']);
+Route::get('daftar', [AuthenticationController::class, 'halaman_register']);
+Route::post('daftar', [AuthenticationController::class, 'register']);
 
 // Route::resources(['peulajaran' => PeulajaranController::class]);
 Route::get('peulajaran', [PeulajaranController::class, 'index']);

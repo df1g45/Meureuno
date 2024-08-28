@@ -1,4 +1,4 @@
-<footer class="pt-7" style="background-color: #e3f2fd;">
+<footer class="pt-7 mt-5" style="background-color: #e3f2fd;">
     <div class="container mt-7 pt-lg-7 pb-4">
         <div class="row align-items-center">
             <div class="col-md-9 col-lg-6">

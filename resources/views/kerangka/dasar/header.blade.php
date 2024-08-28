@@ -1,8 +1,15 @@
 <header>
-    <nav class="navbar" style="background-color: #e3f2fd;">
+    <nav class="navbar mb-5" style="background-color: #e3f2fd;">
         <div class="container-fluid">
             <a class="navbar-brand">Navbar</a>
-            <a href='{{url("login")}}' class="btn btn-outline-success">Login</a>
+            <div class="d-flex me-5 gap-3">
+                @if(Auth::check())
+                <a href='{{url("keluar")}}' class="btn btn-outline-success">Keluar</a>
+                @else
+                <a href='{{url("masuk")}}' class="btn btn-outline-success">Masuk</a>
+                <a href='{{url("daftar")}}' class="btn btn-outline-success">Daftar</a>
+                @endif
+            </div>
         </div>
     </nav>
 </header>

@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\BukuBaru;
 use App\Models\Buku;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -12,12 +15,13 @@ class PeulajaranController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function login()
-    {
-        return view('auth.login');
-    }
+
     public function index()
     {
+        if (!Auth::check()) {
+            return redirect('masuk');
+        }
+
         // mengambil data ke file storage-----------------------------------------------
         // $buku = Storage::get('buku.txt');
         // $buku = explode("\n", $buku);
@@ -47,6 +51,10 @@ class PeulajaranController extends Controller
      */
     public function create()
     {
+        if (!Auth::check()) {
+            return redirect('masuk');
+        }
+
         return view('peulajaran.create');
     }
 
@@ -55,6 +63,10 @@ class PeulajaranController extends Controller
      */
     public function store(Request $request)
     {
+        if (!Auth::check()) {
+            return redirect('masuk');
+        }
+
         $judul = $request->input('judul');
         $deskripsi = $request->input('deskripsi');
 
@@ -97,6 +109,7 @@ class PeulajaranController extends Controller
         ]);
         // ------------------------------------------------------------------------------
 
+        Mail::to('anditoraja@gmail.com')->send(new BukuBaru());
         return redirect('peulajaran');
     }
 
@@ -105,6 +118,9 @@ class PeulajaranController extends Controller
      */
     public function show(string $id)
     {
+        if (!Auth::check()) {
+            return redirect('masuk');
+        }
         // mengambil satu data dari file storage -------------------------------------------------
         // $buku = Storage::get('buku.txt');
         // $buku = explode("\n", $buku);
@@ -146,6 +162,9 @@ class PeulajaranController extends Controller
      */
     public function edit(string $id)
     {
+        if (!Auth::check()) {
+            return redirect('masuk');
+        }
         // mengambil data mengunakan Query Builder --------------------------------------
         // $data = DB::table('buku')
         //     ->select('id', 'judul', 'deskripsi', 'created_at')
@@ -168,6 +187,10 @@ class PeulajaranController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        if (!Auth::check()) {
+            return redirect('masuk');
+        }
+
         $judul = $request->input('judul');
         $deskripsi = $request->input('deskripsi');
 
@@ -197,6 +220,9 @@ class PeulajaranController extends Controller
      */
     public function destroy(string $id)
     {
+        if (!Auth::check()) {
+            return redirect('masuk');
+        }
         // mengambil data mengunakan Query Builder --------------------------------------
         // DB::table('buku')
         //     ->where('id', '=', $id)
