@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 
 class PeulajaranController extends Controller
@@ -103,14 +104,33 @@ class PeulajaranController extends Controller
         //     'updated_at' => date('Y-m-d H:i:s')
         // ]);
         // mengunakan create
-        Buku::create([
+        $buku = Buku::create([
             'judul' => $judul,
             'deskripsi' => $deskripsi
         ]);
         // ------------------------------------------------------------------------------
 
-        Mail::to('anditoraja@gmail.com')->send(new BukuBaru());
+        Mail::to(Auth::User()->email)->send(new BukuBaru($buku));
+
+        $this->notify_telegram($buku);
+
         return redirect('peulajaran');
+    }
+
+    private function notify_telegram($buku)
+    {
+        $api_token = "7024844047:AAGLuOMbN07JSRjWtiohWICvlMuasGEDgPM";
+        $url = "https://api.telegram.org/bot{$api_token}/sendMessage";
+        $chat_id = -4570831959;
+        $asoe = "Ada buku baru nih yang berjudul : <strong>\"{$buku->judul}\"</strong>";
+
+        $data = [
+            'chat_id' => $chat_id,
+            'text' => $asoe,
+            'parse_mode' => "HTML"
+        ];
+
+        Http::post($url, $data);
     }
 
     /**

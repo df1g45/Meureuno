@@ -14,12 +14,14 @@ class BukuBaru extends Mailable
 {
     use Queueable, SerializesModels;
 
+    protected $buku;
+
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct($buku)
     {
-        //
+        $this->buku = $buku;
     }
 
     /**
@@ -29,7 +31,7 @@ class BukuBaru extends Mailable
     {
         return new Envelope(
             from: new Address('daffa1g45@gmail.com', 'Muhammad Daffa Al Farizi'),
-            subject: 'Buku Baru',
+            subject: "Buku Baru berjudul : {$this->buku->judul}",
         );
     }
 
@@ -40,6 +42,9 @@ class BukuBaru extends Mailable
     {
         return new Content(
             view: 'mails.email',
+            with: [
+                'buku' => $this->buku
+            ]
         );
     }
 
